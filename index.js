@@ -34,6 +34,15 @@ const thirdIntentionSchema = new mongoose.Schema({
 
 const ThirdIntention = mongoose.model('ThirdIntention', thirdIntentionSchema);
 
+// const thirdIntention = new ThirdIntention({
+//     descriptionIntention: 'Missa Tridentina Osasco',
+//     prayedRosaries: [{ email: 'alansiqma@gmail.com', dataRezado: '07/07/2022' }, { email: 'alansiqma@gmail.com', dataRezado: '08/07/2022' }]
+// });
+
+
+
+// thirdIntention.save().then(() => console.log("One entry added"), (err) => console.log(err));
+
 app.get('/', (req, res) => {
     if (req.query.intention != '') {
         let intention = req.query.intention;

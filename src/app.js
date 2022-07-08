@@ -5,9 +5,23 @@ const morgan = require('morgan');
 
 require('./config/connection')
 
+const whitelist = ['http://localhost:4200', 'http://developer2.com']
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true)
+        } else {
+            callback(new Error())
+        }
+    }
+}
+
 class App {
     constructor() {
         this.app = express();
+        this.app.use(cors({
+            origin: 'http://localhost:4200'
+        }));
         this.middlewares();
         this.routes();
     }
@@ -17,10 +31,8 @@ class App {
         this.app.use((req, res, next) => {
             res.header("Access-Controll-Allow-Origin", "*");
             res.header("Access-Controll-Allow-Methods", "GET,POST,PUT,DELETE");
-            res.header("Access-Controll-Allow-Headers", "Content-type,Authorization,Acept,Origin, X-requested-With");
+            res.header("Access-Controll-Allow-Headers", "Access, Content-type, Authorization, Acept, Origin, X-Requested-With")
 
-
-            this.app.use(cors());
             next();
         });
     }

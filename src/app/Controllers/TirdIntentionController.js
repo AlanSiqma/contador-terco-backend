@@ -1,38 +1,34 @@
 const ThirdIntention = require('../Models/ThirdIntention');
 const yup = require('yup');
 const _ = require('lodash');
+const { response } = require('express');
 class ThirdIntentionController {
 
-
     get(req, res) {
+        var respose = { erro: true, result: [] };
+        var status = 400;
         if (req.query.intention != '') {
             let intention = req.query.intention;
-
             ThirdIntention.find({ descriptionIntention: intention }, (err, found) => {
                 if (!err) {
-                    return res.status(200).json({
-                        erro: false,
-                        result: found
-                    });
+                    respose.result = found;
+                    respose.erro = false;
+                    return res.status(200).json(respose);
                 } else {
-                    return res.status(400).json({
-                        erro: true,
-                        result: "Erro ao retornar lista"
-                    });
+                    respose.result = "Erro ao retornar lista";
+                    return res.status(status).json(respose);
                 }
             });
         } else {
-
-            return res.status(400).json({
-                erro: true,
-                result: "intention é um campo obrigatorio"
-            });
+            respose.result = "intention é um campo obrigatorio";
+            return res.status(status).json(respose);
         }
     }
+
     async save(req, res) {
-
+        var respose = { erro: true, result: [] };
+        var status = 400;
         var body = req.body;
-
         let schema = yup.object().shape({
             email: yup.string().required(),
             data: yup.string().required(),
@@ -51,54 +47,42 @@ class ThirdIntentionController {
                                 found[0].prayedRosaries.push(body);
                                 found[0].save();
                             } else {
-                                console.log(found[0].prayedRosaries);
-
-                                var teste = _.filter(found[0].prayedRosaries, function (item) {
-                                    return item.email == body.email &&
-                                        item.numero == body.numero
-                                })
-                                if (teste.length == 0) {
+                                var filterPrayed = _.filter(found[0].prayedRosaries,
+                                    function (item) {
+                                        return item.email == body.email &&
+                                            item.numero == body.numero
+                                    }
+                                )
+                                if (filterPrayed.length == 0) {
                                     found[0].prayedRosaries.push(body);
                                     found[0].save();
                                 } else {
-
-                                    teste[0].status = body.status;
+                                    filterPrayed[0].status = body.status;
                                     found[0].save();
                                 }
                             }
-
                         }
                     } else if (found.length == 0) {
-
                         if (!validateSchema) {
                             body = [];
                         }
-
                         let thirdIntention = new ThirdIntention({
                             descriptionIntention: intention,
                             prayedRosaries: body
                         });
                         thirdIntention.save().then(() => console.log("One entry added"), (err) => console.log(err));
                     }
-                    return res.status(200).json({
-                        erro: false,
-                        result: found
-                    });
+                    respose.erro = false;
+                    response.result = found;
+                    return res.status(200).json(respose);
                 } else {
-                    return res.status(400).json({
-                        erro: true,
-                        result: "Erro ao retornar lista"
-                    });
+                    respose.result = "Erro ao retornar lista";
+                    return res.status(status).json(respose);
                 }
             });
-
-
         } else {
-
-            return res.status(400).json({
-                erro: true,
-                result: "intention é um campo obrigatorio"
-            });
+            respose.result = "intention é um campo obrigatorio";
+            return res.status(status).json(respose);
         }
     }
 }

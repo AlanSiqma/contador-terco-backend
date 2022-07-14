@@ -1,8 +1,10 @@
+require("dotenv").config();
+console.log(`porta ${process.env.PORT}`)
+
 const express = require('express');
 const cors = require('cors');
 const routes = require('./routes');
 const morgan = require('morgan');
-require("dotenv").config();
 
 require('./config/connection')
 

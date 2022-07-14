@@ -1,5 +1,2 @@
-# you can list packages
-
-# or include links to specific .deb files
-
-# or add custom apt repos (only required if using packages outside of the standard Ubuntu APT repositories)
+s3cmd
+wget

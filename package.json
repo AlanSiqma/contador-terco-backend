@@ -1,8 +1,9 @@
 {
   "dependencies": {
+    "express": "^4.18.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
-    "express": "^4.18.1",
+    "body-parser": "*",
     "lodash": "^4.17.21",
     "lodash-express": "^0.2.0",
     "mongoose": "^6.4.3",

@@ -2,25 +2,15 @@ const express = require('express');
 const cors = require('cors');
 const routes = require('./routes');
 const morgan = require('morgan');
+require("dotenv").config();
 
 require('./config/connection')
-
-const whitelist = ['http://localhost:4200', 'http://developer2.com']
-const corsOptions = {
-    origin: (origin, callback) => {
-        if (whitelist.indexOf(origin) !== -1) {
-            callback(null, true)
-        } else {
-            callback(new Error())
-        }
-    }
-}
 
 class App {
     constructor() {
         this.app = express();
         this.app.use(cors({
-            origin: 'http://localhost:4200'
+            origin: process.env.ORIGIN,
         }));
         this.middlewares();
         this.routes();

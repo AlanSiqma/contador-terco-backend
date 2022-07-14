@@ -1,8 +1,21 @@
 {
+  "name": "contador-terco-backend",
+  "version": "1.0.0",
+  "description": "A sample Node.js app using Express 4",
+  "engines": {
+    "node": "16.x"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
   "dependencies": {
+    "express": "^4.18.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
-    "express": "^4.18.1",
+    "body-parser": "*",
     "lodash": "^4.17.21",
     "lodash-express": "^0.2.0",
     "mongoose": "^6.4.3",
@@ -11,15 +24,15 @@
     "yarn": "^1.22.19",
     "yup": "^0.32.11"
   },
-  "name": "contador-terco-backend",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlanSiqma/contador-terco-backend"
   },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
   "author": "",
-  "license": "ISC",
-  "description": ""
+  "license": "ISC"
 }

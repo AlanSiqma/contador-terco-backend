@@ -5,11 +5,11 @@ const _ = require('lodash');
 const { response } = require('express');
 class ThirdIntentionController {
 
-    get(req, res) {
+    getIntention(req, res) {
         var respose = { erro: true, result: [] };
         var status = 400;
-        if (req.query.intention != '') {
-            let intention = req.query.intention;
+        if (req.params.intention != '') {
+            let intention = req.params.intention;
             ThirdIntention.find({ descriptionIntention: intention }, (err, found) => {
                 if (!err) {
                     respose.result = found;
@@ -36,7 +36,7 @@ class ThirdIntentionController {
             return res.status(status).json(respose);
         }
 
-        let intention = req.query.intention;
+        let intention = req.params.intention;
         let validateSchema = await ThirdIntentionService.schemaIsValid(body);
 
         if (!validateSchema) {
@@ -80,6 +80,22 @@ class ThirdIntentionController {
             response.result = found;
             return res.status(200).json(respose);
         });
+    }
+    get(req, res) {
+        var respose = { erro: true, result: [] }; var status = 400;
+
+
+        ThirdIntention.find((err, found) => {
+            if (!err) {
+                respose.result = found;
+                respose.erro = false;
+                return res.status(200).json(respose);
+            } else {
+                respose.result = "Erro ao retornar lista";
+                return res.status(status).json(respose);
+            }
+        });
+
     }
 }
 module.exports = new ThirdIntentionController();

@@ -15,7 +15,7 @@ class ThirdIntentionService {
         return await schema.isValid(body);
     }
     intentionInvalid(req) {
-        return req.query.intention == undefined || req.query.intention == ''
+        return req.params.intention == undefined || req.params.intention == ''
     }
 
 

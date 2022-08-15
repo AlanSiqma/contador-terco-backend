@@ -1,9 +1,11 @@
-# Contador Terco BackEnd
+# O que é o Contador de terço
+É um contador para gerenciar os terços rezados conforme uma campanha de oração
 
+# O Projeto
+Visa o backend da aplicação que gerencia a campanhas de oração 
 O projeto esta utilizando Express.js
 
 # Preparativos 
-
 Para rodar localmente seguir os passos abaixo:
 1. Instale o docker
 2. abra o prompt de comando e digite: docker pull mongo 
@@ -12,9 +14,7 @@ Para rodar localmente seguir os passos abaixo:
 5. adicionar linha no arquivo: MONGODB_URI="mongodb://terco:e296cd9f@localhost:27017/admin"
 
 # Rodando local
-
 Apos baixar o projeto va na pasta inicial do projeto e no prompt de comando digite npm run dev, ao termino do build a aplicação estara disponivel no [endereço](http://localhost:8080/)
 
-# Apos
-
+# Após
 Agora siga os passos para baixar o [front-end](https://github.com/AlanSiqma/contador-terco) da aplicação .

@@ -49,14 +49,14 @@ class ThirdIntentionController {
                 return res.status(status).json(respose);
             }
 
-            // if (found.length == 0) {
-            //     let thirdIntention = new ThirdIntention({
-            //         descriptionIntention: intention,
-            //         prayedRosaries: body
-            //     });
-            //     thirdIntention.save();
-            // } else 
-            if (found.length > 0 && validateSchema) {
+            if (found.length == 0) {
+                let thirdIntention = new ThirdIntention({
+                    descriptionIntention: intention,
+                    prayedRosaries: body
+                });
+                thirdIntention.save();
+            }
+            else if (found.length > 0 && validateSchema) {
                 var thirdIntention = found[0];
 
                 if (thirdIntention.prayedRosaries.length == 0) {

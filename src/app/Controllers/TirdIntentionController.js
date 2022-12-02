@@ -4,7 +4,6 @@ const ThirdIntentionService = require('../Services/ThirdIntentionService');
 const _ = require('lodash');
 const { response } = require('express');
 class ThirdIntentionController {
-
     getIntention(req, res) {
         var respose = { erro: true, result: [] };
         var status = 400;
@@ -24,6 +23,23 @@ class ThirdIntentionController {
             respose.result = "intention é um campo obrigatorio";
             return res.status(status).json(respose);
         }
+    }
+
+    createIntention(intention, body) {
+        let thirdIntention = new ThirdIntention({
+            descriptionIntention: intention,
+            prayedRosaries: body
+        });
+        thirdIntention.save();
+    }
+
+    createIntentionAndUsertCreated(intention, body) {
+        let thirdIntention = new ThirdIntention({
+            userCreated: body.userCreated,
+            descriptionIntention: intention,
+            prayedRosaries: body.prayedRosaries
+        });
+        thirdIntention.save();
     }
 
     async save(req, res) {
@@ -50,11 +66,7 @@ class ThirdIntentionController {
             }
 
             if (found.length == 0) {
-                let thirdIntention = new ThirdIntention({
-                    descriptionIntention: intention,
-                    prayedRosaries: body
-                });
-                thirdIntention.save();
+                this.createIntention(intention, body);
             }
             else if (found.length > 0 && validateSchema) {
                 var thirdIntention = found[0];
@@ -82,6 +94,7 @@ class ThirdIntentionController {
             return res.status(200).json(respose);
         });
     }
+
     async postPrayintentionObject(req, res) {
         var respose = { erro: true, result: [] };
         var status = 400;
@@ -106,13 +119,9 @@ class ThirdIntentionController {
             }
 
             if (found.length == 0) {
-                let thirdIntention = new ThirdIntention({
-                    userCreated: body.userCreated,
-                    descriptionIntention: intention,
-                    prayedRosaries: body.prayedRosaries
-                });
-                thirdIntention.save();
-            } else if (found.length > 0 && validateSchema) {
+                createIntentionAndUsertCreated(intention, body);
+            }
+            else if (found.length > 0 && validateSchema) {
                 var thirdIntention = found[0];
 
                 if (thirdIntention.prayedRosaries.length == 0) {
@@ -141,7 +150,6 @@ class ThirdIntentionController {
 
     get(req, res) {
         var respose = { erro: true, result: [] }; var status = 400;
-
 
         ThirdIntention.find((err, found) => {
             if (!err) {

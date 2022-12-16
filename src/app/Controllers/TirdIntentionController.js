@@ -41,6 +41,9 @@ class ThirdIntentionController {
         });
         thirdIntention.save();
     }
+    genericResponse(res, status, respose) {
+        return res.status(status).json(respose);
+    }
 
     async save(req, res) {
         var respose = { erro: true, result: [] };
@@ -62,7 +65,7 @@ class ThirdIntentionController {
         ThirdIntention.find({ descriptionIntention: intention }, (err, found) => {
             if (err) {
                 respose.result = "Erro ao retornar lista";
-                return res.status(status).json(respose);
+                return this.genericResponse(res, status, respose);
             }
 
             if (found.length == 0) {
@@ -91,7 +94,7 @@ class ThirdIntentionController {
             }
             respose.erro = false;
             response.result = found;
-            return res.status(200).json(respose);
+            return this.genericResponse(res, 200, respose);
         });
     }
 

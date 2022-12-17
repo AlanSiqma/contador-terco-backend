@@ -44,13 +44,16 @@ class ThirdIntentionController {
     genericResponse(res, status, respose) {
         return res.status(status).json(respose);
     }
+    intentionInvalid(req) {
+        return req.params.intention == undefined || req.params.intention == ''
+    }
 
     async save(req, res) {
         var respose = { erro: true, result: [] };
         var status = 400;
         var body = req.body;
 
-        if (ThirdIntentionService.intentionInvalid(req)) {
+        if (this.intentionInvalid(req)) {
             respose.result = "intention é um campo obrigatorio";
             return res.status(status).json(respose);
         }

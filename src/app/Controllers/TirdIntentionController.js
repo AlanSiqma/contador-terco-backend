@@ -47,6 +47,27 @@ class ThirdIntentionController {
     intentionInvalid(req) {
         return req.params.intention == undefined || req.params.intention == ''
     }
+    updateIntention(found, body) {
+        var thirdIntention = found[0];
+
+        if (thirdIntention.prayedRosaries.length == 0) {
+            thirdIntention.prayedRosaries.push(body);
+        } else {
+            var filterPrayed = _.filter(thirdIntention.prayedRosaries,
+                function (item) {
+                    return item.email == body.email &&
+                        item.numero == body.numero
+                }
+            );
+            if (filterPrayed.length == 0) {
+                thirdIntention.prayedRosaries.push(body);
+            } else {
+                var filterPrayedFirst = filterPrayed[0];
+                filterPrayedFirst.status = body.status;
+            }
+        }
+        thirdIntention.save();
+    }
 
     async save(req, res) {
         var respose = { erro: true, result: [] };
@@ -75,25 +96,7 @@ class ThirdIntentionController {
                 this.createIntention(intention, body);
             }
             else if (found.length > 0 && validateSchema) {
-                var thirdIntention = found[0];
-
-                if (thirdIntention.prayedRosaries.length == 0) {
-                    thirdIntention.prayedRosaries.push(body);
-                } else {
-                    var filterPrayed = _.filter(thirdIntention.prayedRosaries,
-                        function (item) {
-                            return item.email == body.email &&
-                                item.numero == body.numero
-                        }
-                    );
-                    if (filterPrayed.length == 0) {
-                        thirdIntention.prayedRosaries.push(body);
-                    } else {
-                        var filterPrayedFirst = filterPrayed[0];
-                        filterPrayedFirst.status = body.status;
-                    }
-                }
-                thirdIntention.save();
+                this.updateIntention(found[0], body);
             }
             respose.erro = false;
             response.result = found;

@@ -124,7 +124,7 @@ class ThirdIntentionController {
         ThirdIntention.find({ descriptionIntention: intention }, (err, found) => {
             if (err) {
                 respose.result = "Erro ao retornar lista";
-                return res.status(status).json(respose);
+                return this.genericResponse(res, status, respose);
             }
 
             if (found.length == 0) {

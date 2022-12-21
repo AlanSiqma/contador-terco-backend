@@ -128,28 +128,10 @@ class ThirdIntentionController {
             }
 
             if (found.length == 0) {
-                createIntentionAndUsertCreated(intention, body);
+                this.createIntentionAndUsertCreated(intention, body);
             }
             else if (found.length > 0 && validateSchema) {
-                var thirdIntention = found[0];
-
-                if (thirdIntention.prayedRosaries.length == 0) {
-                    thirdIntention.prayedRosaries.push(body);
-                } else {
-                    var filterPrayed = _.filter(thirdIntention.prayedRosaries,
-                        function (item) {
-                            return item.email == body.email &&
-                                item.numero == body.numero
-                        }
-                    );
-                    if (filterPrayed.length == 0) {
-                        thirdIntention.prayedRosaries.push(body);
-                    } else {
-                        var filterPrayedFirst = filterPrayed[0];
-                        filterPrayedFirst.status = body.status;
-                    }
-                }
-                thirdIntention.save();
+                this.updateIntention(found[0], body);
             }
             respose.erro = false;
             response.result = found;

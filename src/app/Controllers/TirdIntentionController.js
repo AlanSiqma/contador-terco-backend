@@ -109,7 +109,7 @@ class ThirdIntentionController {
         var status = 400;
         var body = req.body;
 
-        if (ThirdIntentionService.intentionInvalid(req)) {
+        if (this.intentionInvalid(req)) {
             respose.result = "intention é um campo obrigatorio";
             return res.status(status).json(respose);
         }

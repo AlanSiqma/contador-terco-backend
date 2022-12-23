@@ -25,14 +25,17 @@ class ThirdIntentionController {
         }
     }
 
-    createIntention(intention, body) {
-        let thirdIntention = new ThirdIntention({
-            descriptionIntention: intention,
-            prayedRosaries: body
-        });
-        thirdIntention.save();
+    createIntention(intention, body, isuserCreated) {
+        if (isuserCreated) {
+            createIntentionAndUsertCreated(intention, body)
+        } else {
+            let thirdIntention = new ThirdIntention({
+                descriptionIntention: intention,
+                prayedRosaries: body
+            });
+            thirdIntention.save();
+        }
     }
-
     createIntentionAndUsertCreated(intention, body) {
         let thirdIntention = new ThirdIntention({
             userCreated: body.userCreated,
@@ -93,7 +96,7 @@ class ThirdIntentionController {
             }
 
             if (found.length == 0) {
-                this.createIntention(intention, body);
+                this.createIntention(intention, body, false);
             }
             else if (found.length > 0 && validateSchema) {
                 this.updateIntention(found[0], body);
@@ -128,7 +131,7 @@ class ThirdIntentionController {
             }
 
             if (found.length == 0) {
-                this.createIntentionAndUsertCreated(intention, body);
+                this.createIntention(intention, body, true);
             }
             else if (found.length > 0 && validateSchema) {
                 this.updateIntention(found[0], body);

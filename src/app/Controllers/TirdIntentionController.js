@@ -71,8 +71,13 @@ class ThirdIntentionController {
         }
         thirdIntention.save();
     }
-
+    async postPrayintentionObject(req, res) {
+        return this.savePray(req, res, true);
+    }
     async save(req, res) {
+        return this.savePray(req, res, false);
+    }
+    async savePray(req, res, isuserCreated) {
         var respose = { erro: true, result: [] };
         var status = 400;
         var body = req.body;
@@ -90,13 +95,14 @@ class ThirdIntentionController {
         }
 
         ThirdIntention.find({ descriptionIntention: intention }, (err, found) => {
+
             if (err) {
                 respose.result = "Erro ao retornar lista";
                 return this.genericResponse(res, status, respose);
             }
 
             if (found.length == 0) {
-                this.createIntention(intention, body, false);
+                this.createIntention(intention, body, isuserCreated);
             }
             else if (found.length > 0 && validateSchema) {
                 this.updateIntention(found[0], body);
@@ -106,42 +112,6 @@ class ThirdIntentionController {
             return this.genericResponse(res, 200, respose);
         });
     }
-
-    async postPrayintentionObject(req, res) {
-        var respose = { erro: true, result: [] };
-        var status = 400;
-        var body = req.body;
-
-        if (this.intentionInvalid(req)) {
-            respose.result = "intention é um campo obrigatorio";
-            return res.status(status).json(respose);
-        }
-
-        let intention = req.params.intention;
-        let validateSchema = await ThirdIntentionService.schemaIsValid(body.prayedRosaries);
-
-        if (!validateSchema) {
-            body = [];
-        }
-
-        ThirdIntention.find({ descriptionIntention: intention }, (err, found) => {
-            if (err) {
-                respose.result = "Erro ao retornar lista";
-                return this.genericResponse(res, status, respose);
-            }
-
-            if (found.length == 0) {
-                this.createIntention(intention, body, true);
-            }
-            else if (found.length > 0 && validateSchema) {
-                this.updateIntention(found[0], body);
-            }
-            respose.erro = false;
-            response.result = found;
-            return res.status(200).json(respose);
-        });
-    }
-
     get(req, res) {
         var respose = { erro: true, result: [] }; var status = 400;
 

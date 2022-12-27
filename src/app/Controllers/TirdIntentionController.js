@@ -7,7 +7,8 @@ const { response } = require('express');
 var ThirdIntentionControllerService = {
     createIntention: function (intention, body, isuserCreated) {
         if (isuserCreated) {
-            createIntentionAndUsertCreated(intention, body)
+
+            this.createIntentionAndUsertCreated(intention, body)
         } else {
             let thirdIntention = new ThirdIntention({
                 descriptionIntention: intention,
